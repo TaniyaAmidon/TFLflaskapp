@@ -1,6 +1,8 @@
 from flask import Flask, render_template
 import requests
 import psycopg2
+import json
+
 
 app = Flask(__name__)
 
@@ -14,15 +16,14 @@ cur = con.cursor()
 # cur.execute("CREATE TABLE IF NOT EXISTS results (id serial PRIMARY KEY, name varchar, email varchar)")
 # con.commit()
 
+
+r = requests.get('https://api.tfl.gov.uk/StopPoint/490009333W/arrivals').content
+jsonResponse = json.loads(r.decode('utf-8'))
+
+
 @app.route('/')
-def exceptedArrivals():
-  return requests.get('https://api.tfl.gov.uk/StopPoint/490009333W/arrivals').content
-  return render_template('home.html')
-  # cur.execute("INSERT INTO results VALUES (5, 'value2', 'Value3')")
-  # con.commit()
-  # cur.close()
-  # con.close()
-  #return requests.get('https://api.tfl.gov.uk/StopPoint/490009333W/arrivals').content
+def display():
+  return render_template('home.html', data=jsonResponse)
 
 
 @app.route('/history')
