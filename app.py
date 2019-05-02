@@ -14,5 +14,6 @@ def exceptedArrivals():
 def history():
   return render_template('history.html')
 
+
 if __name__ == '__main__':
   app.run()
