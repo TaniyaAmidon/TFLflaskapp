@@ -1,16 +1,27 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <ul>
-{% for item in data %}
-    <li>{{item['stationName']}}</li>
-    <li>{{item['direction']}}</li>
-    <li>{{item['bearing']}}</li>
-    <li>{{item['destinationName']}}</li>
-    <li>{{item['towards']}}</li>
-    <li>{{item['expectedArrival']}}</li>
-    <br>
-{% endfor %}
-</ul>
+  <h1>Live bus arrivals at: {{data[0]['timestamp']}}</h1>
+  <h4>Towards: {{data[0]['towards']}}</h4>
 
+  {% for item in data %}
+    <table class="table table-dark">
+      <thead>
+      <tr>
+          <th scope="col">Route</th>
+          <th scope="col">Current stop</th>
+          <th scope="col">Destination</th>
+          <th scope="col">Next bus in</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{item['lineName']}}</td>
+        <td>{{item['stationName']}}</td>
+        <td>{{item['destinationName']}}</td>
+        <td>{{item['expectedArrival']}}</td>
+      </tr>
+      </tbody>
+    </table>
+  {% endfor %}
 {% endblock %}
