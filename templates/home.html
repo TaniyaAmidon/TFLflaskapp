@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <h1>Live bus arrivals at: {{data[0]['timestamp']}}</h1>
+  <h1>Live bus arrivals at: {{tx}}</h1>
   <h4>Towards: {{data[0]['towards']}}</h4>
 
   {% for item in data %}
@@ -16,10 +16,11 @@
       </thead>
       <tbody>
       <tr>
-        <td>{{item['lineName']}}</td>
-        <td>{{item['stationName']}}</td>
-        <td>{{item['destinationName']}}</td>
-        <td>{{item['expectedArrival']}}</td>
+        <td>{{item['route']}}</td>
+        <td>{{item['stop']}}</td>
+        <td>{{item['destination']}}</td>
+        <td>{{item['expectedArrival']}} min</td>
+
       </tr>
       </tbody>
     </table>
