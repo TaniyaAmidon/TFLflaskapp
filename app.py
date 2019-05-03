@@ -44,7 +44,7 @@ def display():
         "towards": item['towards']
       }
       )
-    data[::-1]
+    # data[::-1]
 
     cur.execute("INSERT INTO history (expectedArrival, time_timestamp ) VALUES (TIMESTAMP '" + item['expectedArrival'] + "', TIMESTAMP '" + item['timestamp'] + "')")
     con.commit()
