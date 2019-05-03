@@ -44,8 +44,8 @@ def display():
         "towards": item['towards']
       }
       )
-    reversed_list = list[::-1]
-
+    # reversed_list = list[::-1]
+    reversed_list = sorted(list, key=lambda l: l['expectedArrival'])
 
     cur.execute("INSERT INTO history (expectedArrival, time_timestamp ) VALUES (TIMESTAMP '" + item['expectedArrival'] + "', TIMESTAMP '" + item['timestamp'] + "')")
     con.commit()
