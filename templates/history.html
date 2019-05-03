@@ -2,9 +2,6 @@
 
 {% block body %}
   <h2 class="mt-4 mb-4">History</h2>
-
-  {% for i in d %}
-
     <table class="table table-dark">
       <thead>
         <tr>
@@ -14,16 +11,15 @@
         </tr>
       </thead>
       <tbody>
+      {% for i in d %}
         <tr>
           <td>{{i.Id}}</td>
           <td>{{i.expectedArrival}}</td>
           <td>{{i.time_timestamp}}</td>
         </tr>
+  {% endfor %}
       </tbody>
     </table>
-
-  {% endfor %}
-
 {% endblock %}
 
 

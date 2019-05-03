@@ -26,7 +26,7 @@ def display():
   r = requests.get('https://api.tfl.gov.uk/StopPoint/490009333W/arrivals').content
   jsonResponse = json.loads(r.decode('utf-8'))
 
-  data = []
+  list = []
   for item in jsonResponse:
     london_tz = timezone('Europe/London')
     dt = parser.parse(jsonResponse[0]['timestamp'])
@@ -35,7 +35,7 @@ def display():
     dt2 = parser.parse(item['expectedArrival'])
     tt2 = london_tz.normalize(dt2.astimezone(london_tz))
     mins = dt2 - dt
-    data.append(
+    list.append(
       {
         "route": item['lineName'],
         "stop": item['stationName'],
@@ -44,13 +44,14 @@ def display():
         "towards": item['towards']
       }
       )
-    # data[::-1]
+    reversed_list = list[::-1]
+
 
     cur.execute("INSERT INTO history (expectedArrival, time_timestamp ) VALUES (TIMESTAMP '" + item['expectedArrival'] + "', TIMESTAMP '" + item['timestamp'] + "')")
     con.commit()
     # cur.close()
     # con.close()
-  return render_template('home.html', data=data, tx=timenow)
+  return render_template('home.html', data=reversed_list, tx=timenow)
 
 
 
