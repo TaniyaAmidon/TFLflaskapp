@@ -21,33 +21,6 @@ con.commit()
 # con.close()
 
 
-
-class InvalidUsage(Exception):
-    status_code = 400
-
-    def __init__(self, message, status_code=None, payload=None):
-        Exception.__init__(self)
-        self.message = message
-        if status_code is not None:
-            self.status_code = status_code
-        self.payload = payload
-
-    def to_dict(self):
-        rv = dict(self.payload or ())
-        rv['message'] = self.message
-        return rv
-
-
-@app.errorhandler(InvalidUsage)
-def handle_invalid_usage(error):
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
-
-@app.route('/404')
-def get_foo():
-    raise InvalidUsage('This view is gone', status_code=410)
-
 @app.route('/')
 def display():
   r = requests.get('https://api.tfl.gov.uk/StopPoint/490009333W/arrivals').content
@@ -96,6 +69,16 @@ def history():
     }
     )
   return render_template('history.html', d=info)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+  return render_template('404.html')
+
+@app.errorhandler(500)
+def page_not_found(e):
+  return render_template('500.html', error= e), 500
+
 
 
 if __name__ == '__main__':
