@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, g
 import requests
 import json
 import db
@@ -10,15 +10,6 @@ from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
-con = db.connect_to_db(
-  app.config.get('DB_NAME'), 
-  app.config.get('DB_USER'), 
-  app.config.get('DB_HOST'), 
-  app.config.get('DB_PASS'),
-)
-
-db.create_db(con)
 
 @app.route('/')
 def display():
@@ -53,14 +44,14 @@ def display():
 
     # sort the expectedArrivals in descending order
     reversed_list = sorted(list, key=lambda l: l['expectedArrival'])
-    db.store_history(con,item)
+    db.store_history(get_db_con(),item)
 
   return render_template('home.html', data=reversed_list, tx=timestamp_formatted)
 
 
 @app.route('/history')
 def history():
-  items = db.fetch_history(con)
+  items = db.fetch_history(get_db_con())
   info = []
 
   for row in items:
@@ -95,5 +86,28 @@ def page_not_found(e):
 def page_not_found(e):
   return render_template('500.html', error= e), 500
 
+def get_db_con():
+    """Opens a new database connection if there is none yet for the
+    current application context.
+    """
+    if not hasattr(g, 'db_con'):
+        g.db_con = db.connect_to_db(
+          app.config.get('DB_NAME'), 
+          app.config.get('DB_USER'), 
+          app.config.get('DB_HOST'), 
+          app.config.get('DB_PASS'),
+        )
+
+    return g.db_con
+
+@app.teardown_appcontext
+def close_db_con(error):
+    """Closes the database again at the end of the request."""
+    if hasattr(g, 'db_con'):
+        g.db_con.close()
+
 if __name__ == '__main__':
+  # Setup db tables
+  db.create_db(get_db_con())
   app.run()
+
