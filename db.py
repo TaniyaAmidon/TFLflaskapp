@@ -16,3 +16,8 @@ def store_history(con):
     con.commit()
     # cur.close()
     # con.close()
+
+def fetch_history(con):
+    cur = con.cursor()
+    cur.execute("SELECT * FROM history")
+    return cur.fetchall()

@@ -49,12 +49,9 @@ def display():
   return render_template('home.html', data=reversed_list, tx=timenow)
 
 
-
-
 @app.route('/history')
 def history():
-  cur.execute("SELECT * FROM history")
-  items = cur.fetchall()
+  items = fetch_history(con)
   info = []
   for row in items:
     info.append(
