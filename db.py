@@ -9,3 +9,10 @@ def create_db(con):
     con.commit()
 # cur.close()
 # con.close()
+
+def store_history(con):
+    cur = con.cursor()
+    cur.execute("INSERT INTO history (expectedArrival, time_timestamp ) VALUES (TIMESTAMP '" + item['expectedArrival'] + "', TIMESTAMP '" + item['timestamp'] + "')")
+    con.commit()
+    # cur.close()
+    # con.close()

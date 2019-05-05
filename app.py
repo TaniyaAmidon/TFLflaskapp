@@ -20,7 +20,6 @@ con = db.connect_to_db(
 
 db.create_db(con)
 
-
 @app.route('/')
 def display():
   r = requests.get('https://api.tfl.gov.uk/StopPoint/490009333W/arrivals').content
@@ -46,11 +45,7 @@ def display():
       )
     # sort the expectedArrivals in descending order
     reversed_list = sorted(list, key=lambda l: l['expectedArrival'])
-
-    cur.execute("INSERT INTO history (expectedArrival, time_timestamp ) VALUES (TIMESTAMP '" + item['expectedArrival'] + "', TIMESTAMP '" + item['timestamp'] + "')")
-    con.commit()
-    # cur.close()
-    # con.close()
+    store_history(con) 
   return render_template('home.html', data=reversed_list, tx=timenow)
 
 
