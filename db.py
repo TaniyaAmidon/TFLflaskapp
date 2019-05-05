@@ -7,15 +7,14 @@ def create_db(con):
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS history (id SERIAL PRIMARY KEY, expectedArrival timestamptz, time_timestamp timestamptz)")
     con.commit()
-# cur.close()
-# con.close()
 
-def store_history(con):
+def store_history(con,item):
     cur = con.cursor()
-    cur.execute("INSERT INTO history (expectedArrival, time_timestamp ) VALUES (TIMESTAMP '" + item['expectedArrival'] + "', TIMESTAMP '" + item['timestamp'] + "')")
+    cur.execute(
+        "INSERT INTO history (expectedArrival, time_timestamp ) VALUES (%s, %s)", 
+        (item['expectedArrival'], item['timestamp'])
+        )
     con.commit()
-    # cur.close()
-    # con.close()
 
 def fetch_history(con):
     cur = con.cursor()
