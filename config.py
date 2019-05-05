@@ -7,7 +7,3 @@ class Config(object):
     DB_USER = os.environ.get('DB_USER')
     DB_HOST = os.environ.get('DB_HOST', "localhost")
     DB_PASS = os.environ.get('DB_PASS')
-
-
-
-  
