@@ -6,14 +6,17 @@ from dateutil import parser
 from pytz import timezone
 from datetime import datetime
 from flask import jsonify
+from config import Config
 
 app = Flask(__name__)
+app.config.from_object(Config)
 
-app.config['ENV'] = 'development'
-app.config['DEBUG'] = True
-app.config['TESTING'] = True
-
-con = db.connect_to_db()
+con = db.connect_to_db(
+  app.config.get('DB_NAME'), 
+  app.config.get('DB_USER'), 
+  app.config.get('DB_HOST'), 
+  app.config.get('DB_PASS'),
+)
 cur = con.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS history (id SERIAL PRIMARY KEY, expectedArrival timestamptz, time_timestamp timestamptz)")
 con.commit()
@@ -44,7 +47,7 @@ def display():
         "towards": item['towards']
       }
       )
-    # reversed_list = list[::-1]
+    # sort the expectedArrivals in descending order
     reversed_list = sorted(list, key=lambda l: l['expectedArrival'])
 
     cur.execute("INSERT INTO history (expectedArrival, time_timestamp ) VALUES (TIMESTAMP '" + item['expectedArrival'] + "', TIMESTAMP '" + item['timestamp'] + "')")
@@ -66,7 +69,7 @@ def history():
     {
       "Id": row[0],
       "expectedArrival": (row[1]).strftime('%H:%M:%S'),
-      "time_timestamp": (row[2]).strftime('%d:%m:%Y') + " / " +  (row[2]).strftime('%H:%M:%S')
+      "time_timestamp": (row[2]).strftime('%d/%m/%Y %H:%M:%S') 
     }
     )
   return render_template('history.html', d=info)
@@ -79,8 +82,6 @@ def page_not_found(e):
 @app.errorhandler(500)
 def page_not_found(e):
   return render_template('500.html', error= e), 500
-
-
 
 if __name__ == '__main__':
   app.run()
