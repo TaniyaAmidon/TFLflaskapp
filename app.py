@@ -17,11 +17,8 @@ con = db.connect_to_db(
   app.config.get('DB_HOST'), 
   app.config.get('DB_PASS'),
 )
-cur = con.cursor()
-cur.execute("CREATE TABLE IF NOT EXISTS history (id SERIAL PRIMARY KEY, expectedArrival timestamptz, time_timestamp timestamptz)")
-con.commit()
-# cur.close()
-# con.close()
+
+db.create_db(con)
 
 
 @app.route('/')
