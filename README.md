@@ -23,9 +23,9 @@ This app contains two pages.
 
 2. Activate the virtual environment
 
-   ```
-   cd TFLflaskapp
-   source venv/bin/activate```
+   ``` cd TFLflaskapp ```
+   
+  ``` source venv/bin/activate ```
    
 
 3. Set the following environmental variables to setup your database by running the below commands in the terminal
