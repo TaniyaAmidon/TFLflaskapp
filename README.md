@@ -32,7 +32,7 @@ This app contains two pages.
 
     ```export DB_USER= YOUR_DB_USERNAME ```
 
-    ```export DB_NAME= YOUR_DB_NAME  ``` If not set will default to ```tfl```
+    ```export DB_NAME= YOUR_DB_NAME  ```
 
     ```export DB_PASS= YOUR_DB_PASSWORD  ```
 
