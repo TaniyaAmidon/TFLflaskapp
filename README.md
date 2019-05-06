@@ -23,7 +23,7 @@ This app contains two pages.
    ```source TFLflaskapp/venv/bin/activate```
    
 
-3. Set the following environmental variables to setup your database 
+3. Set the following environmental variables to setup your database by running the below commands in the terminal
 
     ```export DB_USER= YOUR_DB_USERNAME ```
 
