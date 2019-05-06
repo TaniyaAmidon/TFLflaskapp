@@ -17,10 +17,15 @@ This app contains two pages.
 
 1. Clone this gitHub repository
 
+   ```
+   git clone git@github.com:TaniyaAmidon/TFLflaskapp.git
+   ```
 
 2. Activate the virtual environment
 
-   ```source TFLflaskapp/venv/bin/activate```
+   ```
+   cd TFLflaskapp
+   source venv/bin/activate```
    
 
 3. Set the following environmental variables to setup your database by running the below commands in the terminal
