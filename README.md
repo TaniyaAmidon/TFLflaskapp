@@ -3,6 +3,16 @@ This is an application that returns live bus arrival times using TFL api.
 
 ```https://api.tfl.gov.uk/StopPoint/490009333W/arrivals```
 
+This app contains two pages.
+   1. Home page:
+   
+      Displays the live bus arrivals for bus route K1
+      
+   2. History page:
+   
+      Displays the history of the bus arrival times and timestamps when the api call is made
+      
+      
 ## Installing
 
 1. Clone this gitHub repository
