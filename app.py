@@ -11,6 +11,7 @@ from config import Config
 app = Flask(__name__)
 app.config.from_object(Config)
 
+
 @app.route('/')
 def display():
   r = requests.get('https://api.tfl.gov.uk/StopPoint/490009333W/arrivals')
@@ -106,8 +107,13 @@ def close_db_con(error):
     if hasattr(g, 'db_con'):
         g.db_con.close()
 
+def setup_db():
+  with app.app_context():
+    db.create_table(get_db_con())        
+
+# Setup db tables
+setup_db()
+
 if __name__ == '__main__':
-  # Setup db tables
-  db.create_db(get_db_con())
   app.run()
 
